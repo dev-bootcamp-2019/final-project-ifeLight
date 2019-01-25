@@ -1,8 +1,6 @@
-# Bounty dApp
+# RefChain Bounty dApp
 
-![](header.png)
-
-Bounty dApp is an decentralized application that aims to solve the problem of trust in centralized bounties.
+Refchain Bounty dApp is an decentralized application that aims to solve the problem of trust in centralized bounties.
 
 * Creating a bounty is simple, user sets the name, description and amount of Ether that is prepared to pay for the successfuly completion of the given task. 
 * Users can list the bounties and submit the solutions/service.
@@ -18,10 +16,11 @@ For running this app localy you need to have installed Node, Truffle and Ganache
 ## Installation & Usage
 
 1. Clone the repo, move into the directory, install external contract node modules for frontend.
+Note: It can take a couple of minutes.
 
 	```sh
-	 git clone https://github.com/artuan/bounty-dApp
-	 cd bounty-dApp
+	 git clone https://github.com/ifeLight/refchain.git
+	 cd refchain
 	 npm install
     ```
 
@@ -35,10 +34,10 @@ For running this app localy you need to have installed Node, Truffle and Ganache
 3. Run Ganache with predefined seed words.
 
 	```sh
-	ganache-cli -m "recipe program twist race bind host dutch 
-	fog item rigid decline media"
+	ganache-cli -m "recipe program twist race bind host dutch fog item rigid decline media"
     ```
 4. Open metamask with the above seed words and set it to a private network (localhost 8545).
+	An account will be created with 100 ETH.
 
 5. In a second terminal tab compile and migrate the smart contracts.
 
@@ -59,9 +58,4 @@ For running this app localy you need to have installed Node, Truffle and Ganache
 	npm start
     ```
 
-
-
-## Meta
-
-@Miha Perosa
 

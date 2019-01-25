@@ -26,7 +26,7 @@ export default class Navigation extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">Bounty dApp</NavbarBrand>
+          <NavbarBrand href="/">Refchain Bounty dApp</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>

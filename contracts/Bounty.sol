@@ -1,4 +1,4 @@
- pragma solidity ^0.4.24;
+pragma solidity ^0.4.24;
 
 import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
 
@@ -6,7 +6,7 @@ import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
  @title Bounty - Decentlized app for creating bounties or job offers 
  payed in Ether.
  @author Miha Perosa
- @notice This contract is was written for ConsenSys Academy’s 2018 Developer Program final project.
+ @notice This contract is was written for ConsenSys Academy’s 2018-2019 Developer Program final project by Ifedayo.
  @dev the contract ownership can be transfared
 */
 contract Bounty is Ownable {
