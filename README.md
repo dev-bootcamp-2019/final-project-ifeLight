@@ -1,5 +1,7 @@
 # RefChain Bounty dApp
 
+[![Build Status](https://travis-ci.org/ifeLight/refchain.svg?branch=master)](https://travis-ci.org/ifeLight/refchain)
+
 Refchain Bounty dApp is an decentralized application that aims to solve the problem of trust in centralized bounties.
 
 * Creating a bounty is simple, user sets the name, description and amount of Ether that is prepared to pay for the successfuly completion of the given task. 
