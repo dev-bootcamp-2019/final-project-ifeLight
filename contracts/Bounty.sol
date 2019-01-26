@@ -1,6 +1,11 @@
-pragma solidity ^0.4.24;
+/*
+    This exercise has been App has been upgraded to use Solidity version 0.5
+*/
 
-import 'openzeppelin-solidity/contracts/ownership/Ownable.sol';
+pragma solidity ^0.5.0;
+
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+
 
 /*
  @title Bounty - Decentlized app for creating bounties or job offers 
@@ -24,7 +29,8 @@ contract Bounty is Ownable {
     /// @dev Submission can have UnderReview, Approved and Rejected status.
     enum SubmissionStatus { UnderReview, Approved, Rejected }
 
-    /// @dev Structure that containing the bounty data. The structure name is Job because the main contract was named Bounty.
+    /// @dev Structure that containing the bounty data. 
+    //The structure name is Job because the main contract was named Bounty.
     struct Job {
         address owner;
         uint bid;
@@ -36,9 +42,9 @@ contract Bounty is Ownable {
         mapping (uint => Submission) submissions;
     }
 
-	/// @dev Submission structure
+    /// @dev Submission structure
     struct Submission {
-        address owner;
+        address payable owner;
         uint sid;
         string description;
         SubmissionStatus status;
@@ -64,7 +70,7 @@ contract Bounty is Ownable {
     /// @notice Modifier that checks if bounty exists.
     /// @param _bid Bounty id.
     modifier onlyIfBountyExists(uint _bid) {
-        require(bounties[_bid].owner != 0, "Bounty required");
+        require(bounties[_bid].owner != address(0), "Bounty required");
         _;
     }
 
@@ -79,8 +85,8 @@ contract Bounty is Ownable {
     /// @param _bid Bounty id.
     /// @param _sid Submission id.
     modifier onlyIfSubmissionExists(uint _bid, uint _sid) {
-        require(bounties[_bid].owner != 0, "Bounty required");
-        require(bounties[_bid].submissions[_sid].owner != 0, "Submission required");
+        require(bounties[_bid].owner != address(0), "Bounty required");
+        require(bounties[_bid].submissions[_sid].owner != address(0), "Submission required");
         _;
     }
 
@@ -94,17 +100,16 @@ contract Bounty is Ownable {
     /// @dev The function is payable.
     /// @param _name Bounty name.
     /// @param _description Bounty description.
-    function createBounty(string _name, string _description)
-        public 
-		payable
+    function createBounty(string memory _name, string memory _description)
+    public 
+    payable
     {
         funds += msg.value;
-        bounties[bountiesCount] = Job(
-            {owner: msg.sender, bid: bountiesCount, name: _name,
+        bounties[bountiesCount] = Job({
+            owner: msg.sender, bid: bountiesCount, name: _name,
             description: _description, amount: msg.value, status: BountyStatus.Open, 
             submissionCount: 0 
-            }
-        );
+        });
         emit BountyCreated(bountiesCount);
         bountiesCount = bountiesCount + 1;
     }	
@@ -113,8 +118,10 @@ contract Bounty is Ownable {
     /// @param _bid Bounty id.
     /// @return owner, bid, name, description, amount, status
     function getBounty(uint _bid) 
-		public view returns (address owner, uint bid, string name, string description, uint amount, BountyStatus status) 
-	{
+    public
+    view
+    returns (address owner, uint bid, string memory name, string memory description, uint amount, BountyStatus status) 
+    {
         owner = bounties[_bid].owner;
         bid = bounties[_bid].bid;
         name = bounties[_bid].name;
@@ -136,10 +143,10 @@ contract Bounty is Ownable {
     /// @param _bid Bounty id.
     /// @param _sid Submission id.
     function rejectSubmission(uint _bid, uint _sid)
-		onlyIfSubmissionExists(_bid, _sid)
-		onlyIfBountyStatusNotClosed(_bid)
-		onlyBountyOwner(_bid)
-        public 
+    public
+    onlyIfSubmissionExists(_bid, _sid)
+    onlyIfBountyStatusNotClosed(_bid)
+    onlyBountyOwner(_bid) 
     {
         bounties[_bid].submissions[_sid].status = SubmissionStatus.Rejected;
         emit SubmissionRejected(_bid, _sid);
@@ -150,40 +157,44 @@ contract Bounty is Ownable {
     /// @param _bid Bounty id.
     /// @param _sid Submission id.
     function acceptSubmission(uint _bid, uint _sid)
-		onlyIfSubmissionExists(_bid, _sid)
-		onlyIfBountyStatusNotClosed(_bid)
-		onlyBountyOwner(_bid)
-        public 
+    public
+    onlyIfSubmissionExists(_bid, _sid)
+    onlyIfBountyStatusNotClosed(_bid)
+    onlyBountyOwner(_bid) 
     {
         bounties[_bid].status = BountyStatus.Close;
         uint length = bounties[_bid].submissionCount;
         for (uint i = 0; i < length; i++) {
-            if(i == _sid) {
+            if (i == _sid) {
                 bounties[_bid].submissions[i].status = SubmissionStatus.Approved;
                 emit SubmissionApproved(_bid, _sid);
-			} else {
+            } else {
                 bounties[_bid].submissions[i].status = SubmissionStatus.Rejected;
-			}
+            }
         }
-        address receiver = bounties[_bid].submissions[_sid].owner;
         uint amount = bounties[_bid].amount;
 
-        if(funds >= amount) {
+        if (funds >= amount) {
             funds = funds - amount;
-            receiver.transfer(amount);
+            bounties[_bid].submissions[_sid].owner.transfer(amount);
             emit MoneyTransfaredAfterApprovedBounty(_bid);
-		}
+        }
     }
 
     /// @notice Add a submission to bounty.
     /// @param _bid Bounty id.
     /// @param _description Submission description.
-    function addSubmissionToBounty(uint _bid, string _description)
-		onlyIfBountyExists(_bid)
-        public 
+    function addSubmissionToBounty(uint _bid, string memory _description)
+    public
+    onlyIfBountyExists(_bid)
     {
         uint index = bounties[_bid].submissionCount;
-        bounties[_bid].submissions[index] = Submission({owner: msg.sender, sid: index, description: _description, status: SubmissionStatus.UnderReview});
+        bounties[_bid].submissions[index] = Submission({
+            owner: msg.sender, 
+            sid: index, 
+            description: _description, 
+            status: SubmissionStatus.UnderReview
+        });
         bounties[_bid].submissionCount = index + 1;
         emit NewSubmissionAddedToBounty(_bid);
     }
@@ -211,7 +222,10 @@ contract Bounty is Ownable {
     /// @param _bid Bounty id.
     /// @param _sid Submission id
     /// @return owner, sid, description, status
-    function getSubmission(uint _bid, uint _sid) public view returns (address owner, uint sid, string description, SubmissionStatus status) {
+    function getSubmission(uint _bid, uint _sid) 
+    public 
+    view 
+    returns (address owner, uint sid, string memory description, SubmissionStatus status) {
         owner = bounties[_bid].submissions[_sid].owner;
         sid = bounties[_bid].submissions[_sid].sid;
         description = bounties[_bid].submissions[_sid].description;
