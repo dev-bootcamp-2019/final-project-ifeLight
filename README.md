@@ -43,7 +43,7 @@ Note: It can take a couple of minutes.
 
 	```sh
 	truffle compile
-	truffle migrate --reset
+	truffle migrate --reset --network development
     ```
 
 6. Test the contract by running tests in truffle.
