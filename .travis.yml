@@ -10,4 +10,3 @@ script:
   - ganache-cli -m "recipe program twist race bind host dutch fog item rigid decline media" &
   - sleep 5
   - truffle test
-  - npm run build

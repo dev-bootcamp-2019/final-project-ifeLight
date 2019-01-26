@@ -17,6 +17,22 @@ For running this app localy you need to have installed Node, Truffle and Ganache
 
 ## Installation & Usage
 
+### Prerequisites 
+The following software prerequisites must be met to run Thames Boats. The instruction linked are for Ubuntu Linux. 
+
+
+* <a href="https://www.liquidweb.com/kb/install-git-ubuntu-16-04-lts/" target="_blank">Git</a> 
+
+* <a href="https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/" target="_blank">NodeJS, v10</a> (or later)
+
+* <a href="https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/" target="_blank">npm v6</a>  (or later)
+
+* <a href="https://truffleframework.com/docs/truffle/getting-started/installation" target="_blank">Truffle</a> (latest version)
+
+* <a href="https://truffleframework.com/ganache" target="_blank">Ganache</a> (latest version)
+
+* Either Chrome or FireFox with the MetaMask extension installed.
+
 1. Clone the repo, move into the directory, install external contract node modules for frontend.
 Note: It can take a couple of minutes.
 
@@ -29,7 +45,7 @@ Note: It can take a couple of minutes.
 2. Install Truffle and Ganache globally.
 
 	```sh
-	 npm install -g truffle
+	 npm install -g truffle@5
 	 npm install -g ganache-cli
     ```
 
